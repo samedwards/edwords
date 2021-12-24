@@ -11,7 +11,7 @@ const BASE_CLASSES = [
   'form-input',
   'rounded-none',
   'relative',
-  'text-5xl',
+  'text-4xl',
   'text-center',
   'text-white',
   'bg-black',
