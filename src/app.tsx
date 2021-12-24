@@ -5,10 +5,11 @@ import seedrandom from 'seedrandom';
 import { Footer, Input } from '@wordle/components';
 import { dictionary, playerWords } from '@wordle/assets';
 
-const getRandomWord = (seed?: string): string => playerWords[(playerWords.length * seedrandom(seed)()) << 0].toUpperCase();
+const rnd = seedrandom(new Date(Date.now()).toDateString());
+const getRandomWord = (): string => playerWords[(playerWords.length * rnd()) << 0].toUpperCase();
 
 export const App = () => {
-  // const [word, setWord] = useState(() => getRandomWord(new Date(Date.now()).toDateString()));
+  // const [word, setWord] = useState(() => getRandomWord());
   const [word, setWord] = useState('ALISA');
   const [isSolved, setIsSolved] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
