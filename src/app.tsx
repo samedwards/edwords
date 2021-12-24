@@ -8,7 +8,8 @@ import { dictionary, playerWords } from '@wordle/assets';
 const getRandomWord = (seed?: string): string => playerWords[(playerWords.length * seedrandom(seed)()) << 0].toUpperCase();
 
 export const App = () => {
-  const [word, setWord] = useState(() => getRandomWord(new Date(Date.now()).toDateString()));
+  // const [word, setWord] = useState(() => getRandomWord(new Date(Date.now()).toDateString()));
+  const [word, setWord] = useState('ALISA');
   const [isSolved, setIsSolved] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
   const [isValidGuess, setIsValidGuess] = useState(false);
