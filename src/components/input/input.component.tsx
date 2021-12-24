@@ -16,6 +16,7 @@ const BASE_CLASSES = [
   'text-white',
   'bg-black',
   'border-2',
+  'opacity-100',
   'w-full',
   'flex items-center',
   'justify-center',
@@ -25,9 +26,7 @@ const BASE_CLASSES = [
 ];
 
 export const Input = ({ className, onChange, type = 'text', isDisabled, ...rest }: Props) => {
-  const classes = cn(className, BASE_CLASSES, {
-    'text-white': isDisabled,
-  });
+  const classes = cn(className, BASE_CLASSES);
 
   return <input {...rest} className={classes} onChange={onChange} type={type} disabled={isDisabled} required={true} autocomplete="off" />;
 };
