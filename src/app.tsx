@@ -9,8 +9,7 @@ const rnd = seedrandom(new Date(Date.now()).toDateString());
 const getRandomWord = (): string => playerWords[(playerWords.length * rnd()) << 0].toUpperCase();
 
 export const App = () => {
-  // const [word, setWord] = useState(() => getRandomWord());
-  const [word, setWord] = useState('ALISA');
+  const [word, setWord] = useState(() => getRandomWord());
   const [isSolved, setIsSolved] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
   const [isValidGuess, setIsValidGuess] = useState(false);
