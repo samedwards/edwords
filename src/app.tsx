@@ -14,6 +14,8 @@ export const App = () => {
   const [isFailed, setIsFailed] = useState(false);
   const [isValidGuess, setIsValidGuess] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [dayWordCounter, setDayWordCounter] = useState(1);
+  const [dayWordCounterDisplay, setDayWordCounterDisplay] = useState('first');
 
   const letters = word.split('');
   const maxAttempts = letters.length + 1;
@@ -100,7 +102,17 @@ export const App = () => {
     setIsFailed(false);
     setIsSolved(false);
     setAttempt(0);
+    setDayWordCounter(dayWordCounter + 1);
+    setDayWordCounterDisplay(stringifyNumber(dayWordCounter + 1));
   };
+
+  const stringifyNumber = (n) => {
+    const special = ['zeroth','first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth'];
+    const deca = ['twent', 'thirt', 'fort', 'fift', 'sixt', 'sevent', 'eight', 'ninet'];
+    if (n < 20) return special[n];
+    if (n%10 === 0) return deca[Math.floor(n/10)-2] + 'ieth';
+    return deca[Math.floor(n/10)-2] + 'y-' + special[n%10];
+  }
 
   const onKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -164,7 +176,10 @@ export const App = () => {
   return (
     <div className="w-full">
       <div className="flex justify-center">
-        <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate m-4">Wordle</h1>
+        <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate mt-2">Wordle</h1>
+      </div>
+      <div className="flex justify-center">
+        <span className="text-white sm:truncate mb-4">On the <strong>{dayWordCounterDisplay}</strong> word for the day.</span>
       </div>
       <div className="flex justify-center">
         <div className="w-500">
