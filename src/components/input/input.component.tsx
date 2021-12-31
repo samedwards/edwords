@@ -22,7 +22,7 @@ const BASE_CLASSES = [
   'justify-center',
   'md:w-2/12',
   'h-16',
-  'm-2',
+  'm-1',
 ];
 
 export const Input = ({ className, onChange, type = 'text', isDisabled, ...rest }: Props) => {
