@@ -16,7 +16,6 @@ export const App = () => {
   const [isValidGuess, setIsValidGuess] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [dayWordCounter, setDayWordCounter] = useState(1);
-  const [dayWordCounterDisplay, setDayWordCounterDisplay] = useState('first');
 
   const letters = word.split('');
   const maxAttempts = letters.length + 1;
@@ -104,7 +103,6 @@ export const App = () => {
     setIsSolved(false);
     setAttempt(0);
     setDayWordCounter(dayWordCounter + 1);
-    setDayWordCounterDisplay(stringifyNumber(dayWordCounter + 1));
   };
 
   const onKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -172,7 +170,9 @@ export const App = () => {
         <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate mt-2">Wordle</h1>
       </div>
       <div className="flex justify-center">
-        <span className="text-white sm:truncate mb-4">On the <strong>{dayWordCounterDisplay}</strong> word for the day.</span>
+        <span className="text-white sm:truncate mb-4">
+          On the <strong>{stringifyNumber(dayWordCounter)}</strong> word for the day.
+        </span>
       </div>
       <div className="flex justify-center">
         <div className="w-500">
