@@ -132,7 +132,7 @@ export const App = () => {
     setIsFailed(false);
     setIsSolved(false);
     setAttempt(0);
-    setDayWordCounter(Number(dayWordCounter) + 1);
+    setDayWordCounter(dayWordCounter + 1);
   };
 
   const onKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
