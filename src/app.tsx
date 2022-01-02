@@ -114,7 +114,7 @@ export const App = () => {
     if (word === guesses[attempt].join('')) {
       setIsSolved(true);
       // Store current word count and date in local storage
-      localStorage.setItem(dayWordCounterStorageName, String(Number(dayWordCounter) + 1));
+      localStorage.setItem(dayWordCounterStorageName, String(dayWordCounter + 1));
       localStorage.setItem(lastPlayedDateStorageName, currentDateAsString);
       return;
     }
