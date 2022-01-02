@@ -28,5 +28,5 @@ const BASE_CLASSES = [
 export const Input = ({ className, onChange, type = 'text', isDisabled, ...rest }: Props) => {
   const classes = cn(className, BASE_CLASSES);
 
-  return <input {...rest} className={classes} onChange={onChange} type={type} disabled={isDisabled} required={true} autocomplete="off" />;
+  return <input {...rest} className={classes} onChange={onChange} type={type} disabled={isDisabled} required={true} autoComplete="off" />;
 };
