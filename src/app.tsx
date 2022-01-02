@@ -201,7 +201,7 @@ export const App = () => {
       </div>
       <div className="flex justify-center">
         <span className="text-white sm:truncate mb-4">
-          On the <strong>{stringifyNumber(dayWordCounter)}</strong> word for the day. {word}
+          On the <strong>{stringifyNumber(dayWordCounter)}</strong> word for the day.
         </span>
       </div>
       <div className="flex justify-center">
