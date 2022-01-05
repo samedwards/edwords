@@ -2,13 +2,10 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import cn from 'classnames';
 import seedrandom from 'seedrandom';
 
+import { lastPlayedDateStorageName, dayWordCounterStorageName } from '@wordle/constants';
 import { Footer, Input } from '@wordle/components';
 import { dictionary, playerWords } from '@wordle/assets';
 import { stringifyNumber } from '@wordle/utils';
-
-// Used as a variable name for the local storage
-const lastPlayedDateStorageName = 'lastPlayedDate';
-const dayWordCounterStorageName = 'currentDayWordCounter';
 
 const currentDateAsString: string = new Date(Date.now()).toDateString();
 const rnd = seedrandom(new Date(Date.now()).toDateString());
@@ -16,11 +13,10 @@ const rnd = seedrandom(new Date(Date.now()).toDateString());
 // We get a random word based on the total day count retrieved from storage
 // It ensures we get a different word if the page is reloaded
 const getRandomWord = (numWordsToRun: number): string => {
-  let theWord = '';
   for (let i = 0; i < numWordsToRun; i++) {
-    theWord = playerWords[(playerWords.length * rnd()) << 0].toUpperCase();
+    rnd();
   }
-  return theWord;
+  return playerWords[(playerWords.length * rnd()) << 0].toUpperCase();;
 };
 
 export const App = () => {
@@ -29,7 +25,7 @@ export const App = () => {
   const [isValidGuess, setIsValidGuess] = useState(false);
   const [attempt, setAttempt] = useState(0);
 
-  // Retrieve value from local storage, or default to 1 if doesn't already exist
+  // Retrieve value from local storage, or default to 0 if doesn't already exist
   const [dayWordCounter, setDayWordCounter] = useState(() => {
     // Retrieve the last played date from storage and the last played word counter
     const lastPlayedDate = localStorage.getItem(lastPlayedDateStorageName);
@@ -39,7 +35,7 @@ export const App = () => {
     if (lastPlayedDate && lastPlayedWordCount && lastPlayedDate == currentDateAsString) {
       return Number(lastPlayedWordCount);
     }
-    return 1;
+    return 0;
   });
 
   const [word, setWord] = useState(() => getRandomWord(dayWordCounter));
@@ -126,7 +122,7 @@ export const App = () => {
   };
 
   const onPlayAgainClick = () => {
-    setWord(getRandomWord(1));
+    setWord(getRandomWord(0));
     setGuesses(init.map((x) => x.map((y) => y)));
     setResults(init.map((x) => x.map((y) => y)));
     setIsFailed(false);
@@ -201,7 +197,7 @@ export const App = () => {
       </div>
       <div className="flex justify-center">
         <span className="text-white sm:truncate mb-4">
-          On the <strong>{stringifyNumber(dayWordCounter)}</strong> word for the day.
+          On the <strong>{stringifyNumber(dayWordCounter + 1)}</strong> word for the day.
         </span>
       </div>
       <div className="flex justify-center">
