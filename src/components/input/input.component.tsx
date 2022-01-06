@@ -11,22 +11,24 @@ const BASE_CLASSES = [
   'form-input',
   'rounded-none',
   'relative',
-  'text-4xl',
+  'text-3xl',
   'text-center',
   'text-white',
-  'bg-black',
-  'border-2',
   'opacity-100',
-  'w-full',
   'flex items-center',
   'justify-center',
-  'md:w-2/12',
-  'h-16',
-  'm-1',
+  'h-12',
+  'w-12',
+  'm-0.5',
 ];
 
 export const Input = ({ className, onChange, type = 'text', isDisabled, ...rest }: Props) => {
-  const classes = cn(className, BASE_CLASSES);
+  const classes = cn(className, BASE_CLASSES, {
+    'bg-black border-2 border-gray-700 focus:outline-none': !className?.includes('bg-'),
+    'border-none': className?.includes('bg-'),
+  });
 
-  return <input {...rest} className={classes} onChange={onChange} type={type} disabled={isDisabled} required={true} autoComplete="off" />;
+  return (
+    <input {...rest} className={classes} onChange={onChange} type={type} disabled={isDisabled} required={true} autoComplete="off" inputMode="none" />
+  );
 };

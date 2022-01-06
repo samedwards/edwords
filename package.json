@@ -23,6 +23,7 @@
     "react-helmet": "^6.1.0",
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.2.0",
+    "react-simple-keyboard": "^3.4.21",
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",

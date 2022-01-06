@@ -1,9 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import cn from 'classnames';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import seedrandom from 'seedrandom';
 
 import { lastPlayedDateStorageName, dayWordCounterStorageName } from '@wordle/constants';
-import { Footer, Input } from '@wordle/components';
+import { Footer, Input, ScreenKeyboard } from '@wordle/components';
 import { dictionary, playerWords } from '@wordle/assets';
 import { stringifyNumber } from '@wordle/utils';
 
@@ -24,6 +23,10 @@ export const App = () => {
   const [isFailed, setIsFailed] = useState(false);
   const [isValidGuess, setIsValidGuess] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [focus, setFocus] = useState(0);
+  const [correctLetters, setCorrectLetters] = useState<Array<string>>([]);
+  const [closeLetters, setCloseLetters] = useState<Array<string>>([]);
+  const [wrongLetters, setWrongLetters] = useState<Array<string>>([]);
 
   // Retrieve value from local storage, or default to 0 if doesn't already exist
   const [dayWordCounter, setDayWordCounter] = useState(() => {
@@ -89,11 +92,17 @@ export const App = () => {
 
     const guess = guesses[attempt];
     const unCheckedLetters = [...letters];
+    const correct = correctLetters;
+    const close = closeLetters;
+    const wrong = wrongLetters;
     let i = letters.length;
     while (i--) {
       if (unCheckedLetters[i] === guess[i]) {
         results[attempt][i] = 'bg-green-500';
         unCheckedLetters.splice(i, 1);
+        if (!correct.includes(guess[i])) {
+          correct.push(guess[i]);
+        }
       }
     }
     results[attempt].forEach((result, i) => {
@@ -101,12 +110,23 @@ export const App = () => {
         if (unCheckedLetters.join('').includes(guess[i])) {
           results[attempt][i] = 'bg-yellow-400';
           unCheckedLetters.splice(unCheckedLetters.join('').indexOf(guess[i]), 1);
+          if (!close.includes(guess[i])) {
+            close.push(guess[i]);
+          }
         } else {
-          results[attempt][i] = 'bg-red-600';
+          results[attempt][i] = 'bg-gray-800';
+          if (!wrong.includes(guess[i])) {
+            wrong.push(guess[i]);
+          }
         }
       }
     });
+
     setResults(results);
+    setCorrectLetters(correct);
+    setCloseLetters(close);
+    setWrongLetters(wrong);
+
     if (word === guesses[attempt].join('')) {
       setIsSolved(true);
       // Store current word count and date in local storage
@@ -116,6 +136,9 @@ export const App = () => {
     }
     if (attempt + 1 >= maxAttempts) {
       setIsFailed(true);
+      // Store current word count and date in local storage
+      localStorage.setItem(dayWordCounterStorageName, String(dayWordCounter + 1));
+      localStorage.setItem(lastPlayedDateStorageName, currentDateAsString);
       return;
     }
     setAttempt(attempt + 1);
@@ -131,7 +154,7 @@ export const App = () => {
     setDayWordCounter(dayWordCounter + 1);
   };
 
-  const onKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
+  const onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.stopPropagation();
       if (isFailed || isSolved) {
@@ -142,7 +165,7 @@ export const App = () => {
     }
   };
 
-  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>, row: number, column: number, id: number) => {
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>, row: number, column: number, id: number) => {
     if (event.key === 'Backspace' && guesses[column][row] === '') {
       const previousCell = window.document.getElementById(`${id - 1}`);
       if (column <= letters.length && previousCell) {
@@ -151,7 +174,44 @@ export const App = () => {
     }
   };
 
-  const failed = isFailed && (
+  const onKeyPress = (letter: string): void => {
+    const row = attempt ? focus - attempt * word.length : focus;
+    const column = attempt;
+    const update = guesses.map((x) => x.map((y) => y));
+    if (letter === '{bksp}') {
+      if (update[column][row] !== '' && row === word.length - 1) {
+        update[column][row] = '';
+        setGuesses(update);
+        return;
+      }
+
+      update[column][row ? row - 1 : row] = '';
+      setGuesses(update);
+      const previousCell = window.document.getElementById(`${focus - 1}`);
+      if (column <= letters.length && previousCell) {
+        previousCell.focus();
+      }
+      return;
+    }
+    if (letter === '{enter}') {
+      if (isFailed || isSolved) {
+        onPlayAgainClick();
+        return;
+      }
+      onCheckClick();
+      return;
+    }
+
+    const input = letter.toUpperCase();
+    update[column][row] = input.charAt(input.length - 1);
+    setGuesses(update);
+    const nextCell = window.document.getElementById(`${focus + 1}`);
+    if (nextCell) {
+      nextCell.focus();
+    }
+  };
+
+  let footer = isFailed && (
     <>
       <div className="flex justify-center">
         <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate">Better luck next time! The word was {word}.</h1>
@@ -164,31 +224,20 @@ export const App = () => {
     </>
   );
 
-  const body = isSolved ? (
-    <>
-      <div className="flex justify-center">
-        <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate">Congratulations! The word was {word}.</h1>
-      </div>
-      <div className="mt-10 mb-4 flex justify-center">
-        <button onClick={onPlayAgainClick} className="bg-black hover:bg-gray-900 border-4 text-white font-bold py-2 px-4">
-          Play again?
-        </button>
-      </div>
-    </>
-  ) : (
-    <>
-      <div className="m-4 flex justify-center">
-        <button
-          onClick={onCheckClick}
-          className={cn('bg-black hover:bg-gray-900 border-4 text-white font-bold py-2 px-4', {
-            'pointer-events-none opacity-50': !isValidGuess,
-          })}
-        >
-          Check
-        </button>
-      </div>
-    </>
-  );
+  if (isSolved) {
+    footer = (
+      <>
+        <div className="flex justify-center">
+          <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate">Congratulations! The word was {word}.</h1>
+        </div>
+        <div className="mt-10 mb-4 flex justify-center">
+          <button onClick={onPlayAgainClick} className="bg-black hover:bg-gray-900 border-4 text-white font-bold py-2 px-4">
+            Play again?
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -201,7 +250,7 @@ export const App = () => {
         </span>
       </div>
       <div className="flex justify-center">
-        <div className="w-500">
+        <div className="w-60">
           {guesses.map((_, column) => {
             return (
               <div key={column} className="flex items-center">
@@ -216,7 +265,8 @@ export const App = () => {
                       isDisabled={column !== attempt}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value, row, column, id)}
                       onKeyUp={onKeyUp}
-                      onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => onKeyDown(e, row, column, id)}
+                      onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => onKeyDown(e, row, column, id)}
+                      onFocus={() => setFocus(id)}
                     />
                   );
                 })}
@@ -225,7 +275,12 @@ export const App = () => {
           })}
         </div>
       </div>
-      <Footer>{failed || body}</Footer>
+      <div className="mt-5 flex justify-center">
+        <div className="w-96">
+          <ScreenKeyboard onKeyPress={onKeyPress} correctLetters={correctLetters} closeLetters={closeLetters} wrongLetters={wrongLetters} />
+        </div>
+      </div>
+      {footer ?? <Footer>{footer}</Footer>}
     </div>
   );
 };

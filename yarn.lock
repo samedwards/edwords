@@ -6302,6 +6302,11 @@ react-side-effect@^2.1.0:
   resolved "https://registry.npmjs.org/react-side-effect/-/react-side-effect-2.1.1.tgz"
   integrity sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==
 
+react-simple-keyboard@^3.4.21:
+  version "3.4.21"
+  resolved "https://registry.yarnpkg.com/react-simple-keyboard/-/react-simple-keyboard-3.4.21.tgz#e779eeeee8421974fd8c5ad187a7293efbeef50c"
+  integrity sha512-55GYfd+5m/88P++/nK+bE8MP7hpQVIp3fVQzlHqrdGqqo8eHH0AL22kJlZIxn/x2DQvh6DNd1TQ2r7I+9FWsAw==
+
 react-svg-core@^3.0.3:
   version "3.0.3"
   resolved "https://registry.npmjs.org/react-svg-core/-/react-svg-core-3.0.3.tgz"
