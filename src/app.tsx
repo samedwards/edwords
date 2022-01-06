@@ -1,9 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import seedrandom from 'seedrandom';
 
-import { lastPlayedDateStorageName, dayWordCounterStorageName } from '@wordle/constants';
-import { Footer, Input, ScreenKeyboard } from '@wordle/components';
 import { dictionary, playerWords } from '@wordle/assets';
+import { dayWordCounterStorageName, Footer, Input, lastPlayedDateStorageName, ScreenKeyboard } from '@wordle/common';
 import { stringifyNumber } from '@wordle/utils';
 
 const currentDateAsString: string = new Date(Date.now()).toDateString();

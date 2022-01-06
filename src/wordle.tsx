@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { ModalProvider } from '@wordle/components';
+import { ModalProvider } from '@wordle/common';
 import { App } from './app';
 
 const jsx = (
