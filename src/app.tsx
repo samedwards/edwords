@@ -151,6 +151,9 @@ export const App = () => {
     setIsFailed(false);
     setIsSolved(false);
     setAttempt(0);
+    setCorrectLetters([]);
+    setCloseLetters([]);
+    setWrongLetters([]);
     setDayWordCounter(dayWordCounter + 1);
   };
 
