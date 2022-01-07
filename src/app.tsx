@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import seedrandom from 'seedrandom';
 
+import { CompletionModal } from '@wordle/app/components';
 import { dictionary, playerWords } from '@wordle/assets';
-import { dayWordCounterStorageName, Footer, Input, lastPlayedDateStorageName, ScreenKeyboard } from '@wordle/common';
+import { dayWordCounterStorageName, Input, lastPlayedDateStorageName, ScreenKeyboard, useModal } from '@wordle/common';
 import { stringifyNumber } from '@wordle/utils';
 
 const currentDateAsString: string = new Date(Date.now()).toDateString();
@@ -14,10 +15,11 @@ const getRandomWord = (numWordsToRun: number): string => {
   for (let i = 0; i < numWordsToRun; i++) {
     rnd();
   }
-  return playerWords[(playerWords.length * rnd()) << 0].toUpperCase();;
+  return playerWords[(playerWords.length * rnd()) << 0].toUpperCase();
 };
 
 export const App = () => {
+  const { openModal } = useModal();
   const [isSolved, setIsSolved] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
   const [isValidGuess, setIsValidGuess] = useState(false);
@@ -131,6 +133,7 @@ export const App = () => {
       // Store current word count and date in local storage
       localStorage.setItem(dayWordCounterStorageName, String(dayWordCounter + 1));
       localStorage.setItem(lastPlayedDateStorageName, currentDateAsString);
+      openModal(<CompletionModal success={true} word={word} onPlayAgain={onPlayAgainClick} />);
       return;
     }
     if (attempt + 1 >= maxAttempts) {
@@ -138,6 +141,7 @@ export const App = () => {
       // Store current word count and date in local storage
       localStorage.setItem(dayWordCounterStorageName, String(dayWordCounter + 1));
       localStorage.setItem(lastPlayedDateStorageName, currentDateAsString);
+      openModal(<CompletionModal success={false} word={word} onPlayAgain={onPlayAgainClick} />);
       return;
     }
     setAttempt(attempt + 1);
@@ -160,7 +164,6 @@ export const App = () => {
     if (event.key === 'Enter') {
       event.stopPropagation();
       if (isFailed || isSolved) {
-        onPlayAgainClick();
         return;
       }
       onCheckClick();
@@ -197,7 +200,6 @@ export const App = () => {
     }
     if (letter === '{enter}') {
       if (isFailed || isSolved) {
-        onPlayAgainClick();
         return;
       }
       onCheckClick();
@@ -212,34 +214,6 @@ export const App = () => {
       nextCell.focus();
     }
   };
-
-  let footer = isFailed && (
-    <>
-      <div className="flex justify-center">
-        <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate">Better luck next time! The word was {word}.</h1>
-      </div>
-      <div className="mt-10 mb-4 flex justify-center">
-        <button onClick={onPlayAgainClick} className="bg-black hover:bg-gray-900 border-4 text-white font-bold py-2 px-4">
-          Play again?
-        </button>
-      </div>
-    </>
-  );
-
-  if (isSolved) {
-    footer = (
-      <>
-        <div className="flex justify-center">
-          <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate">Congratulations! The word was {word}.</h1>
-        </div>
-        <div className="mt-10 mb-4 flex justify-center">
-          <button onClick={onPlayAgainClick} className="bg-black hover:bg-gray-900 border-4 text-white font-bold py-2 px-4">
-            Play again?
-          </button>
-        </div>
-      </>
-    );
-  }
 
   return (
     <div className="w-full">
@@ -264,7 +238,7 @@ export const App = () => {
                       value={guesses[column][row]}
                       key={row}
                       className={results[column][row]}
-                      isDisabled={column !== attempt}
+                      isDisabled={column !== attempt || isSolved || isFailed}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value, row, column, id)}
                       onKeyUp={onKeyUp}
                       onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => onKeyDown(e, row, column, id)}
@@ -282,7 +256,6 @@ export const App = () => {
           <ScreenKeyboard onKeyPress={onKeyPress} correctLetters={correctLetters} closeLetters={closeLetters} wrongLetters={wrongLetters} />
         </div>
       </div>
-      {footer ?? <Footer>{footer}</Footer>}
     </div>
   );
 };

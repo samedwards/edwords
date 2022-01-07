@@ -35,7 +35,7 @@ export const Modal = () => {
             animate={{ opacity: 0.6 }}
           />
           <motion.div
-            className="bg-white rounded-lg shadow-xl overflow-hidden z-modal"
+            className="bg-black text-white border-2 border-gray-800 rounded-lg shadow-xl overflow-hidden z-modal"
             initial={{ y: -5, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.2 }}

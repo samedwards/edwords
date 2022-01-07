@@ -10,6 +10,26 @@ type Props = {
 };
 
 export const ScreenKeyboard = ({ onChange, onKeyPress, correctLetters, closeLetters, wrongLetters }: Props) => {
+  const buttonThemes = [];
+  if (correctLetters.length) {
+    buttonThemes.push({
+      buttons: correctLetters.join(' '),
+      class: 'hg-button-correct',
+    });
+  }
+  if (closeLetters.length) {
+    buttonThemes.push({
+      buttons: closeLetters.join(' '),
+      class: 'hg-button-close',
+    });
+  }
+  if (wrongLetters.length) {
+    buttonThemes.push({
+      buttons: wrongLetters.join(' '),
+      class: 'hg-button-wrong',
+    });
+  }
+
   return (
     <SimpleKeyboard
       onChange={onChange}
@@ -21,20 +41,7 @@ export const ScreenKeyboard = ({ onChange, onKeyPress, correctLetters, closeLett
         '{bksp}': '⌫',
         '{enter}': 'ENTER',
       }}
-      buttonTheme={[
-        {
-          buttons: correctLetters.join(' '),
-          class: 'hg-button-correct',
-        },
-        {
-          buttons: closeLetters.join(' '),
-          class: 'hg-button-close',
-        },
-        {
-          buttons: wrongLetters.join(' '),
-          class: 'hg-button-wrong',
-        },
-      ]}
+      buttonTheme={buttonThemes}
     />
   );
 };

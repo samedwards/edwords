@@ -37,7 +37,7 @@ export const Drawer = () => {
             animate={{ opacity: 0.6 }}
           />
           <motion.div
-            className="relative bg-white shadow-xl h-full w-full max-w-screen-lg z-drawer overflow-y-scroll scrollbar-hide"
+            className="relative bg-black shadow-xl h-full w-full max-w-screen-lg z-drawer overflow-y-scroll scrollbar-hide"
             initial={{ x: 5, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.2 }}
