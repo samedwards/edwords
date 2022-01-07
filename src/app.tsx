@@ -104,6 +104,9 @@ export const App = () => {
         if (!correct.includes(guess[i])) {
           correct.push(guess[i]);
         }
+        if (close.includes(guess[i])) {
+          close.splice(close.indexOf(guess[i]), 1);
+        }
       }
     }
     results[attempt].forEach((result, i) => {
