@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-const BASE_CLASSES = ['py-8', 'px-6'];
+const BASE_CLASSES = ['my-3', 'px-6'];
 
 export const ModalHeader = ({ className, children }: Props) => {
   const classes = cn(className, BASE_CLASSES);

@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-const BASE_CLASSES = ['p-6'];
+const BASE_CLASSES = ['m-3'];
 
 export const ModalContent = ({ className, children }: Props) => {
   const classes = cn(className, BASE_CLASSES);
