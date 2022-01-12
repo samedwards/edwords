@@ -116,12 +116,12 @@ export const App = () => {
         if (unCheckedLetters.join('').includes(guess[i])) {
           results[attempt][i] = 'bg-yellow-400';
           unCheckedLetters.splice(unCheckedLetters.join('').indexOf(guess[i]), 1);
-          if (!close.includes(guess[i])) {
+          if (!close.includes(guess[i]) && !correct.includes(guess[i])) {
             close.push(guess[i]);
           }
         } else {
           results[attempt][i] = 'bg-gray-800';
-          if (!wrong.includes(guess[i])) {
+          if (!wrong.includes(guess[i]) && !correct.includes(guess[i]) && !close.includes(guess[i])) {
             wrong.push(guess[i]);
           }
         }
