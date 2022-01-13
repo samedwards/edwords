@@ -1080,7 +1080,6 @@ export const playerWords = [
   'filmy',
   'filth',
   'final',
-  'finca',
   'finch',
   'finds',
   'fined',
