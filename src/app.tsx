@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import seedrandom from 'seedrandom';
 
-import { CompletionModal, HistoryModal } from '@wordle/app/components';
-import { dictionary, playerWords } from '@wordle/assets';
-import { dayWordCounterStorageName, Input, lastPlayedDateStorageName, ScreenKeyboard, useModal } from '@wordle/common';
-import { stringifyNumber } from '@wordle/utils';
+import { CompletionModal, HistoryModal } from '@edwords/app/components';
+import { dictionary, playerWords } from '@edwords/assets';
+import { dayWordCounterStorageName, Input, lastPlayedDateStorageName, ScreenKeyboard, useModal } from '@edwords/common';
+import { stringifyNumber } from '@edwords/utils';
 
 const currentDateAsString: string = new Date(Date.now()).toDateString();
 const rnd = seedrandom(new Date(Date.now()).toDateString());
@@ -227,7 +227,7 @@ export const App = () => {
       <div className="flex">
         <div className="w-2/12"></div>
         <div className="w-8/12 flex justify-center">
-          <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate mt-2">Wordle</h1>
+          <h1 className="text-2xl font-bold text-white sm:text-3xl sm:truncate mt-2">Edwords</h1>
         </div>
         <div className="w-2/12">
           {previousWords.length && (

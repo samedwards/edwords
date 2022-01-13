@@ -20,7 +20,7 @@
     "types": [],
     "baseUrl": "./src",
     "paths": {
-      "@wordle/*": ["./*"],
+      "@edwords/*": ["./*"],
     },
   },
   "include": ["**/*.ts", "**/*.tsx"],
