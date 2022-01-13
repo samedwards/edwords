@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useModal } from '@wordle/common';
+import { useModal } from '@edwords/common';
 
 export const Modal = () => {
   const { closeModal, modal } = useModal();

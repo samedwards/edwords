@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
   entry: {
-    app: path.resolve(__dirname, '../src/wordle.tsx'),
+    app: path.resolve(__dirname, '../src/edwords.tsx'),
   },
   output: {
     filename: '[name].js',
@@ -33,7 +33,7 @@ export default {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
-      '@wordle': path.resolve(__dirname, '../src/client'),
+      '@edwords': path.resolve(__dirname, '../src/client'),
     },
   },
   plugins: [

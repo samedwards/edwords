@@ -7,12 +7,12 @@ import tailwindcss from 'tailwindcss';
 
 const run = async () => {
   try {
-    const css = fs.readFileSync(`./src/styles/wordle.css`);
+    const css = fs.readFileSync(`./src/styles/edwords.css`);
     const result = await postcss([postcssImport as any, tailwindcss('./tailwind.config.js' as any), autoprefixer]).process(css, {
       from: undefined,
     });
 
-    fs.writeFileSync('./build/wordle.css', result.toString());
+    fs.writeFileSync('./build/edwords.css', result.toString());
 
     console.log('Style compilation complete.');
   } catch (error) {

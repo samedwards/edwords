@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ModalContent, ModalFooter, ModalHeader, useModal } from '@wordle/common';
+import { ModalContent, ModalFooter, ModalHeader, useModal } from '@edwords/common';
 
 type Props = {
   words: string[];

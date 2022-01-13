@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
-import { Drawer, Modal } from '@wordle/common';
+import { Drawer, Modal } from '@edwords/common';
 
 export type ModalContextType = {
   closeDrawer: () => void;

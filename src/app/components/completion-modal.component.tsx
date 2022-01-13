@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ModalContent, ModalFooter, useModal } from '@wordle/common';
+import { ModalContent, ModalFooter, useModal } from '@edwords/common';
 
 type Props = {
   success: boolean;
