@@ -835,7 +835,6 @@ export const playerWords = [
   'dozen',
   'dozer',
   'dozes',
-  'drabs',
   'draft',
   'drags',
   'drain',
